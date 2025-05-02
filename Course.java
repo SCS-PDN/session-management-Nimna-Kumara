@@ -17,6 +17,8 @@ public class Course {
         return courseName;
     }
 
+
+    
     public String getInstructor() {
         return instructor;
     }
