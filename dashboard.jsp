@@ -6,7 +6,7 @@
     <title>Course Dashboard</title>
 </head>
 <body>
-    <h1>Welcome, ${username}!</h1>
+    <h1>Welcome, <%= session.getAttribute("username") %>!</h1>
     <a href="LogoutServlet">Logout</a>
     
     <h2>Available Courses</h2>
@@ -17,23 +17,30 @@
             <th>Instructor</th>
             <th>Action</th>
         </tr>
+
+        <% List<Course> courses = (List<Course>) request.getAttribute("courses");%>
+
         <%-- Will be populated by DashboardServlet --%>
-        <c:forEach items="${courses}" var="course">
+
+        for (Course course : courses){
             <tr>
-                <td>${course.id}</td>
-                <td>${course.name}</td>
-                <td>${course.instructor}</td>
-                <td><a href="EnrollServlet?courseId=${course.id}">Enroll</a></td>
+                <td><%= course.getCourseId() %></td>
+                <td><%= course.getCourseName() %></td>
+                <td><%= course.getInstructor() %></td>
+                <td><a href="EnrollServlet?courseId=<%= course.getCourseId() %>">Enroll</a></td>
             </tr>
-        </c:forEach>
+        }
     </table>
 
     <h2>Your Enrolled Courses</h2>
     <ul>
         <%-- Will display enrolled courses from session --%>
-        <c:forEach items="${enrolledCourses}" var="course">
-            <li>${course.name} (${course.id})</li>
-        </c:forEach>
+        <%List<String> enrolled = (List<String>) request.getAttribute("enrolledCourses");%>
+
+         for (String courseId : enrolled) {
+            <li><%= courseName %><%= courseId %></li>
+         }
+
     </ul>
 </body>
 </html>

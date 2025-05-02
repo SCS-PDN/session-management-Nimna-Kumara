@@ -12,5 +12,24 @@ public class EnrollServlet extends HttpServlet {
         // 2. Get current user's session
         // 3. Add course to enrolled list in session
         // 4. Redirect back to DashboardServlet
+
+        String courseId = request.getParameter("courseId");
+        HttpSession session = request.getSession(false);
+
+        if (session != null && courseId != null) {
+            List<String> enrolledList = (List<String>) session.getAttribute("enrolledCourses");
+            if (enrolledList == null) {
+                enrolledList = new ArrayList<>();
+            }
+            if (!enrolledList.contains(courseId)) {
+                enrolledList.add(courseId);
+                session.setAttribute("enrolledCourses", enrolledList);
+            }
+        }
+
+        response.sendRedirect("DashboardServlet");
+
+
+
     }
 }
